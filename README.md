@@ -1,220 +1,220 @@
-# Buscadores IA en Móvil con Python - 8-Puzzle
+# AI Search Algorithms on Mobile with Python - 8-Puzzle
 
-**Taller de Inteligencia Artificial - Implementación de Algoritmos de Búsqueda**
+**Artificial Intelligence Workshop - Search Algorithms Implementation**
 
-**Autor:** Adrián Fernando Gaitán Londoño
+**Author:** Adrián Fernando Gaitán Londoño
 
-## Descripción del Proyecto
+## Project Description
 
-Este proyecto implementa una aplicación móvil interactiva para resolver el clásico problema del 8-puzzle utilizando diferentes algoritmos de búsqueda de Inteligencia Artificial. La aplicación está desarrollada en Python usando el framework Pythonista para dispositivos iOS, proporcionando una interfaz gráfica intuitiva para experimentar con diversos algoritmos de búsqueda.
+This project implements an interactive mobile application to solve the classic 8-puzzle problem using different Artificial Intelligence search algorithms. The application is developed in Python using the Pythonista framework for iOS devices, providing an intuitive graphical interface for experimenting with various search algorithms.
 
-## Características Principales
+## Key Features
 
-### Algoritmos de Búsqueda Implementados
-- **BFS (Breadth-First Search)** - Búsqueda en Amplitud
-- **DFS (Depth-First Search)** - Búsqueda en Profundidad
-- **A*** - Algoritmo A Estrella
-- **Greedy** - Búsqueda Voraz
-- **IDA*** - A* con Profundización Iterativa
+### Implemented Search Algorithms
+- **BFS (Breadth-First Search)** - Breadth-First Search
+- **DFS (Depth-First Search)** - Depth-First Search
+- **A*** - A Star Algorithm
+- **Greedy** - Greedy Search
+- **IDA*** - Iterative Deepening A*
 
-### Funciones Heurísticas
-- **Manhattan Distance** - Distancia Manhattan
-- **Misplaced Tiles** - Fichas Fuera de Lugar
-- **Linear Conflict** - Conflicto Lineal (Heurística Avanzada)
+### Heuristic Functions
+- **Manhattan Distance** - Manhattan Distance
+- **Misplaced Tiles** - Misplaced Tiles Count
+- **Linear Conflict** - Linear Conflict (Advanced Heuristic)
 
-### Funcionalidades de la Aplicación
-- Interfaz gráfica interactiva con grid 3x3
-- Selección de algoritmos y heurísticas
-- Animación paso a paso de la solución
-- Mezcla aleatoria del puzzle
-- Estadísticas de rendimiento (nodos expandidos, tiempo de ejecución)
-- Visualización del camino de la solución
+### Application Features
+- Interactive graphical interface with 3x3 grid
+- Algorithm and heuristic selection
+- Step-by-step solution animation
+- Random puzzle shuffling
+- Performance statistics (expanded nodes, execution time)
+- Solution path visualization
 
-## Entorno de Ejecución
+## Runtime Environment
 
-### Requisitos del Sistema
+### System Requirements
 
-#### Plataforma Principal: iOS con Pythonista
-- **Sistema Operativo:** iOS 12.0 o superior
-- **Aplicación:** Pythonista 3 (disponible en App Store)
-- **Versión de Python:** Python 3.7+ (incluido en Pythonista)
+#### Primary Platform: iOS with Pythonista
+- **Operating System:** iOS 12.0 or higher
+- **Application:** Pythonista 3 (available on App Store)
+- **Python Version:** Python 3.7+ (included in Pythonista)
 
-#### Dependencias
-- `ui` - Framework de interfaz gráfica de Pythonista
-- `time` - Módulo estándar de Python
-- `threading` - Módulo estándar de Python
-- `typing` - Anotaciones de tipo de Python
-- `math` - Módulo matemático estándar
+#### Dependencies
+- `ui` - Pythonista's graphical interface framework
+- `time` - Python standard module
+- `threading` - Python standard module
+- `typing` - Python type annotations
+- `math` - Python standard mathematical module
 
-### Instalación y Configuración
+### Installation and Setup
 
-#### En iOS (Pythonista)
-1. Instalar **Pythonista 3** desde el App Store
-2. Abrir Pythonista
-3. Crear un nuevo archivo Python
-4. Copiar el código de `main.py`
-5. Ejecutar el archivo
+#### On iOS (Pythonista)
+1. Install **Pythonista 3** from the App Store
+2. Open Pythonista
+3. Create a new Python file
+4. Copy the code from `main.py`
+5. Run the file
 
-#### Alternativa: Entorno de Desarrollo Local
-Para desarrollo y testing en computadora (sin interfaz gráfica):
+#### Alternative: Local Development Environment
+For development and testing on computer (without graphical interface):
 ```bash
-# Python 3.7 o superior requerido
+# Python 3.7 or higher required
 python --version
 
-# No requiere instalación de dependencias adicionales
-# (usa solo bibliotecas estándar de Python)
+# No additional dependencies installation required
+# (uses only Python standard libraries)
 ```
 
-**Nota:** La interfaz gráfica solo funciona completamente en Pythonista. En otros entornos Python, las funciones de búsqueda pueden ejecutarse, pero sin la UI.
+**Note:** The graphical interface works completely only in Pythonista. In other Python environments, search functions can be executed, but without the UI.
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 8-puzzle-ai/
-├── main.py              # Archivo principal con toda la implementación
-├── README.md            # Este archivo de documentación
-└── .gitignore          # Configuración de Git
+├── main.py              # Main file with complete implementation
+├── README.md            # This documentation file
+└── .gitignore          # Git configuration
 ```
 
-### Arquitectura del Código
+### Code Architecture
 
-#### 1. Estructuras de Datos (Líneas 16-85)
+#### 1. Data Structures (Lines 16-104)
 ```python
-- Stack          # Pila para DFS
-- Queue          # Cola para BFS  
-- MinHeap        # Heap mínimo para algoritmos informados
+- Stack          # Stack for DFS
+- Queue          # Queue for BFS  
+- MinHeap        # Min heap for informed algorithms
 ```
 
-#### 2. Abstracciones Centrales (Líneas 86-160)
+#### 2. Core Abstractions (Lines 106-160)
 ```python
-- State          # Clase abstracta para estados
-- Problem        # Clase abstracta para problemas
-- Node           # Nodo del árbol de búsqueda
+- State          # Abstract class for states
+- Problem        # Abstract class for problems
+- Node           # Search tree node
 ```
 
-#### 3. Implementación del 8-Puzzle (Líneas 161-210)
+#### 3. 8-Puzzle Implementation (Lines 162-210)
 ```python
-- PuzzleState    # Estado específico del puzzle
-- Puzzle         # Definición del problema del puzzle
+- PuzzleState    # Specific puzzle state
+- Puzzle         # Puzzle problem definition
 ```
 
-#### 4. Funciones Heurísticas (Líneas 211-260)
+#### 4. Heuristic Functions (Lines 212-283)
 ```python
-- misplaced()           # Heurística de fichas mal ubicadas
-- manhattan()           # Heurística de distancia Manhattan
-- linear_conflict()     # Heurística de conflicto lineal
+- misplaced()           # Misplaced tiles heuristic
+- manhattan()           # Manhattan distance heuristic
+- linear_conflict()     # Linear conflict heuristic
 ```
 
-#### 5. Algoritmos de Búsqueda (Líneas 280-420)
+#### 5. Search Algorithms (Lines 309-473)
 ```python
-- BFS()          # Búsqueda en amplitud
-- DFS()          # Búsqueda en profundidad
-- A_star()       # Algoritmo A*
-- Greedy()       # Búsqueda voraz
-- IDA_star()     # A* con profundización iterativa
+- BFS()          # Breadth-first search
+- DFS()          # Depth-first search
+- A_star()       # A* algorithm
+- Greedy()       # Greedy search
+- IDA_star()     # Iterative deepening A*
 ```
 
-#### 6. Interfaz Gráfica (Líneas 430-742)
+#### 6. Graphical Interface (Lines 476-743)
 ```python
-- PuzzleView     # Clase principal de la UI
-- setup_ui()     # Configuración de la interfaz
-- Event handlers # Manejo de eventos de botones
+- PuzzleView     # Main UI class
+- setup_ui()     # Interface setup
+- Event handlers # Button event handling
 ```
 
-## Uso de la Aplicación
+## Application Usage
 
-### Pasos para Usar la App
+### Steps to Use the App
 
-1. **Ejecutar la aplicación** en Pythonista
-2. **Mezclar el puzzle** usando el botón "Mezclar"
-3. **Seleccionar algoritmo** (BFS, DFS, A*, Greedy, IDA*)
-4. **Seleccionar heurística** (para algoritmos informados)
-5. **Presionar "Resolver"** para encontrar la solución
-6. **Usar "Animar"** para ver la solución paso a paso
-7. **"Reset"** para volver al estado objetivo
+1. **Run the application** in Pythonista
+2. **Shuffle the puzzle** using the "Shuffle" button
+3. **Select algorithm** (BFS, DFS, A*, Greedy, IDA*)
+4. **Select heuristic** (for informed algorithms)
+5. **Press "Solve"** to find the solution
+6. **Use "Animate"** to see the solution step by step
+7. **"Reset"** to return to goal state
 
-### Controles Disponibles
+### Available Controls
 
-- **Resolver:** Ejecuta el algoritmo seleccionado
-- **Mezclar:** Genera un estado inicial aleatorio
-- **Animar:** Muestra la animación de la solución
-- **Reset:** Regresa al estado objetivo (1,2,3,4,5,6,7,8,_)
+- **Solve:** Executes the selected algorithm
+- **Shuffle:** Generates a random initial state
+- **Animate:** Shows solution animation
+- **Reset:** Returns to goal state (1,2,3,4,5,6,7,8,_)
 
-### Interpretación de Resultados
+### Results Interpretation
 
-La aplicación muestra:
-- **Tiempo de ejecución** en segundos
-- **Número de nodos expandidos** (complejidad)
-- **Longitud del camino** de la solución
-- **Secuencia de movimientos** (UP, DOWN, LEFT, RIGHT)
+The application displays:
+- **Execution time** in seconds
+- **Number of expanded nodes** (complexity)
+- **Solution path length**
+- **Movement sequence** (UP, DOWN, LEFT, RIGHT)
 
-## Algoritmos y Complejidad
+## Algorithms and Complexity
 
-### Comparación de Rendimiento
+### Performance Comparison
 
-| Algoritmo | Completitud | Optimalidad | Complejidad Temporal | Complejidad Espacial |
-|-----------|-------------|-------------|---------------------|---------------------|
-| BFS       | ✅ Sí       | ✅ Sí       | O(b^d)              | O(b^d)              |
-| DFS       | ❌ No       | ❌ No       | O(b^m)              | O(bm)               |
-| A*        | ✅ Sí       | ✅ Sí       | O(b^d)              | O(b^d)              |
-| Greedy    | ❌ No       | ❌ No       | O(b^m)              | O(b^m)              |
-| IDA*      | ✅ Sí       | ✅ Sí       | O(b^d)              | O(bd)               |
+| Algorithm | Completeness | Optimality | Time Complexity | Space Complexity |
+|-----------|-------------|-------------|-----------------|------------------|
+| BFS       | ✅ Yes       | ✅ Yes       | O(b^d)          | O(b^d)           |
+| DFS       | ❌ No        | ❌ No        | O(b^m)          | O(bm)            |
+| A*        | ✅ Yes       | ✅ Yes       | O(b^d)          | O(b^d)           |
+| Greedy    | ❌ No        | ❌ No        | O(b^m)          | O(b^m)           |
+| IDA*      | ✅ Yes       | ✅ Yes       | O(b^d)          | O(bd)            |
 
-*donde b = factor de ramificación, d = profundidad de la solución, m = profundidad máxima*
+*where b = branching factor, d = solution depth, m = maximum depth*
 
-### Recomendaciones de Uso
+### Usage Recommendations
 
-- **Para soluciones óptimas:** Usar A* o BFS
-- **Para eficiencia de memoria:** Usar IDA*
-- **Para exploración rápida:** Usar Greedy (no garantiza optimización)
-- **Para estados difíciles:** Usar A* con heurística Linear Conflict
+- **For optimal solutions:** Use A* or BFS
+- **For memory efficiency:** Use IDA*
+- **For quick exploration:** Use Greedy (doesn't guarantee optimization)
+- **For difficult states:** Use A* with Linear Conflict heuristic
 
-## Características Técnicas Avanzadas
+## Advanced Technical Features
 
-### Optimizaciones Implementadas
-- **Detección de estados repetidos** para evitar ciclos
-- **Heurísticas admisibles** para garantizar optimalidad
-- **Interfaz no bloqueante** usando threading
-- **Animaciones suaves** para visualización
-- **Manejo eficiente de memoria** con estructuras personalizadas
+### Implemented Optimizations
+- **Repeated state detection** to avoid cycles
+- **Admissible heuristics** to guarantee optimality
+- **Non-blocking interface** using threading
+- **Smooth animations** for visualization
+- **Efficient memory management** with custom structures
 
-### Detalles de Implementación
-- **Programación orientada a objetos** con herencia y polimorfismo
-- **Type hints** para mejor documentación del código
-- **Manejo de excepciones** robusto
-- **Separación de responsabilidades** entre lógica y UI
+### Implementation Details
+- **Object-oriented programming** with inheritance and polymorphism
+- **Type hints** for better code documentation
+- **Robust exception handling**
+- **Separation of responsibilities** between logic and UI
 
-## Casos de Uso Educativos
+## Educational Use Cases
 
-Esta aplicación es ideal para:
-- **Estudiantes de IA** que aprenden algoritmos de búsqueda
-- **Comparación empírica** de diferentes estrategias
-- **Visualización** de conceptos abstractos de búsqueda
-- **Experimentación** con heurísticas personalizadas
-- **Análisis de complejidad** computacional
+This application is ideal for:
+- **AI students** learning search algorithms
+- **Empirical comparison** of different strategies
+- **Visualization** of abstract search concepts
+- **Experimentation** with custom heuristics
+- **Computational complexity analysis**
 
-## Limitaciones Conocidas
+## Known Limitations
 
-- **Dependencia de Pythonista** para la interfaz completa
-- **Problemas muy complejos** pueden requerir mucho tiempo de cómputo
-- **DFS puede no encontrar solución** en algunos casos
-- **Memoria limitada** en dispositivos móviles
+- **Pythonista dependency** for complete interface
+- **Very complex problems** may require long computation time
+- **DFS may not find solution** in some cases
+- **Limited memory** on mobile devices
 
-## Extensiones Futuras
+## Future Extensions
 
-- Soporte para puzzles N×N (15-puzzle, 24-puzzle)
-- Más algoritmos de búsqueda (RBFS, SMA*)
-- Heurísticas adicionales personalizables
-- Modo de competencia entre algoritmos
-- Exportación de resultados y estadísticas
+- Support for N×N puzzles (15-puzzle, 24-puzzle)
+- More search algorithms (RBFS, SMA*)
+- Additional customizable heuristics
+- Competition mode between algorithms
+- Results and statistics export
 
-## Autor y Contexto Académico
+## Author and Academic Context
 
-**Estudiante:** Adrián Fernando Gaitán Londoño  
-**Materia:** Inteligencia Artificial  
-**Taller:** Buscadores IA en Móvil con Python  
-**Enfoque:** Implementación práctica de algoritmos de búsqueda en dispositivos móviles
+**Student:** Adrián Fernando Gaitán Londoño  
+**Course:** Artificial Intelligence  
+**Assignment:** AI Search Algorithms on Mobile with Python  
+**Focus:** Practical implementation of search algorithms on mobile devices
 
 ---
 
-*Este proyecto demuestra la aplicación práctica de conceptos fundamentales de Inteligencia Artificial en un entorno móvil interactivo, facilitando el aprendizaje y la experimentación con diferentes estrategias de búsqueda.*
+*This project demonstrates the practical application of fundamental Artificial Intelligence concepts in an interactive mobile environment, facilitating learning and experimentation with different search strategies.*

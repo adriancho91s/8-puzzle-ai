@@ -1,5 +1,5 @@
 # AI Search Algorithms for N-Puzzle - Pythonista Implementation
-# Taller: Buscadores IA en Móvil con Python
+# Assignment: AI Search Algorithms on Mobile with Python
 # Adrián Fernando Gaitán Londoño
 
 import ui
@@ -10,7 +10,7 @@ from math import inf
 
 
 # ============================================================================
-# ESTRUCTURAS DE DATOS (implementadas manualmente)
+# DATA STRUCTURES (manually implemented)
 # ============================================================================
 
 class Stack:
@@ -103,7 +103,7 @@ class MinHeap:
 
 
 # ============================================================================
-# ABSTRACCIONES: State, Problem, Node
+# ABSTRACTIONS: State, Problem, Node
 # ============================================================================
 
 class State:
@@ -159,7 +159,7 @@ def reconstruct_path(n: Node) -> List[Tuple[Any, State]]:
 
 
 # ============================================================================
-# PROBLEMA: 8-PUZZLE
+# PROBLEM: 8-PUZZLE
 # ============================================================================
 
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
@@ -209,16 +209,16 @@ class Puzzle(Problem):
 
 
 # ============================================================================
-# HEURÍSTICAS
+# HEURISTICS
 # ============================================================================
 
 def misplaced(s: PuzzleState) -> int:
-    """Heurística: número de fichas fuera de lugar"""
+    """Heuristic: number of misplaced tiles"""
     return sum(1 for i, v in enumerate(s.tiles) if v != 0 and v != GOAL[i])
 
 
 def manhattan(s: PuzzleState) -> int:
-    """Heurística: distancia Manhattan total"""
+    """Heuristic: total Manhattan distance"""
     dist = 0
     for i, v in enumerate(s.tiles):
         if v == 0:
@@ -231,11 +231,11 @@ def manhattan(s: PuzzleState) -> int:
 
 
 def linear_conflict(s: PuzzleState) -> int:
-    """Heurística extra: conflicto lineal + Manhattan"""
+    """Enhanced heuristic: linear conflict + Manhattan distance"""
     base = manhattan(s)
     conflicts = 0
 
-    # Conflictos en filas
+    # Row conflicts
     for row in range(3):
         for col in range(3):
             pos = row * 3 + col
@@ -257,7 +257,7 @@ def linear_conflict(s: PuzzleState) -> int:
                     if other_goal_row == row and other_goal_col < goal_col:
                         conflicts += 1
 
-    # Conflictos en columnas
+    # Column conflicts
     for col in range(3):
         for row in range(3):
             pos = row * 3 + col
@@ -283,7 +283,7 @@ def linear_conflict(s: PuzzleState) -> int:
 
 
 # ============================================================================
-# PRIORITY QUEUE para algoritmos informados
+# PRIORITY QUEUE for informed algorithms
 # ============================================================================
 
 class PriorityQueue:
@@ -306,11 +306,11 @@ class PriorityQueue:
 
 
 # ============================================================================
-# ALGORITMOS DE BÚSQUEDA
+# SEARCH ALGORITHMS
 # ============================================================================
 
 def BFS(problem: Problem):
-    """Búsqueda en amplitud"""
+    """Breadth-first search"""
     frontier = Queue()
     frontier.enqueue(Node(problem.initial_state()))
     explored = set()
@@ -331,7 +331,7 @@ def BFS(problem: Problem):
 
 
 def DFS(problem: Problem, depth_limit=None):
-    """Búsqueda en profundidad"""
+    """Depth-first search"""
     frontier = Stack()
     frontier.push(Node(problem.initial_state()))
     explored = set()
@@ -354,7 +354,7 @@ def DFS(problem: Problem, depth_limit=None):
 
 
 def UCS(problem: Problem):
-    """Búsqueda de costo uniforme"""
+    """Uniform cost search"""
     pq = PriorityQueue()
     start = Node(problem.initial_state())
     pq.push(0.0, start)
@@ -375,7 +375,7 @@ def UCS(problem: Problem):
 
 
 def Greedy(problem: Problem, h):
-    """Búsqueda voraz"""
+    """Greedy search"""
     pq = PriorityQueue()
     start = Node(problem.initial_state())
     pq.push(h(start.state), start)
@@ -473,7 +473,7 @@ def IDA_star(problem: Problem, h):
 
 
 # ============================================================================
-# INTERFAZ GRÁFICA CON PYTHONISTA
+# GRAPHICAL INTERFACE WITH PYTHONISTA
 # ============================================================================
 
 class PuzzleView(ui.View):
@@ -481,8 +481,8 @@ class PuzzleView(ui.View):
         self.name = 'AI Search - 8-Puzzle'
         self.background_color = '#f0f0f0'
 
-        # Estado actual del puzzle
-        self.current_state = (1, 4, 2, 7, 5, 3, 0, 8, 6)  # Estado inicial
+        # Current puzzle state
+        self.current_state = (1, 4, 2, 7, 5, 3, 0, 8, 6)  # Initial state
         self.solution_path = None
         self.animation_running = False
         self.animation_step = 0
@@ -490,12 +490,12 @@ class PuzzleView(ui.View):
         self.setup_ui()
 
     def setup_ui(self):
-        # Panel principal
+        # Main panel
         main_view = ui.View(frame=(0, 0, 600, 1000))
         main_view.background_color = 'white'
         self.add_subview(main_view)
 
-        # Título
+        # Title
         title_label = ui.Label()
         title_label.text = 'AI Search - 8-Puzzle'
         title_label.font = ('Arial', 28)
@@ -504,12 +504,12 @@ class PuzzleView(ui.View):
         title_label.frame = (0, 20, 600, 40)
         main_view.add_subview(title_label)
 
-        # Grid del puzzle - Mucho más grande
+        # Puzzle grid - Much larger
         self.grid_view = ui.View(frame=(75, 80, 450, 450))
         self.grid_view.background_color = '#333333'
         main_view.add_subview(self.grid_view)
 
-        # Crear tiles 
+        # Create tiles
         self.tile_labels = []
         for i in range(9):
             tile = ui.Label()
@@ -523,35 +523,35 @@ class PuzzleView(ui.View):
 
         self.update_puzzle_display()
 
-        # Selector de algoritmo
+        # Algorithm selector
         algo_label = ui.Label()
-        algo_label.text = 'Algoritmo:'
+        algo_label.text = 'Algorithm:'
         algo_label.font = ('Arial', 20)
         algo_label.frame = (30, 560, 150, 40)
         main_view.add_subview(algo_label)
 
         self.algorithm_selector = ui.SegmentedControl()
         self.algorithm_selector.segments = ['BFS', 'DFS', 'A*', 'Greedy', 'IDA*']
-        self.algorithm_selector.selected_index = 2  # A* por defecto
+        self.algorithm_selector.selected_index = 2  # A* by default
         self.algorithm_selector.frame = (30, 600, 540, 40)
         main_view.add_subview(self.algorithm_selector)
 
-        # Selector de heurística
+        # Heuristic selector
         heur_label = ui.Label()
         heur_label.text = 'Heurística:'
         heur_label.font = ('Arial', 20)
-        heur_label.frame = (30, 650, 150, 40)
+        heur_label.text = 'Heuristic:'
         main_view.add_subview(heur_label)
 
         self.heuristic_selector = ui.SegmentedControl()
         self.heuristic_selector.segments = ['Manhattan', 'Misplaced', 'Linear Conflict']
-        self.heuristic_selector.selected_index = 0  # Manhattan por defecto
+        self.heuristic_selector.selected_index = 0  # Manhattan by default
         self.heuristic_selector.frame = (30, 690, 540, 40)
         main_view.add_subview(self.heuristic_selector)
 
-        # Botones de control
+        # Control buttons
         solve_button = ui.Button()
-        solve_button.title = 'Resolver'
+        solve_button.title = 'Solve'
         solve_button.background_color = '#2196F3'
         solve_button.tint_color = 'white'
         solve_button.corner_radius = 12
@@ -561,7 +561,7 @@ class PuzzleView(ui.View):
         main_view.add_subview(solve_button)
 
         shuffle_button = ui.Button()
-        shuffle_button.title = 'Mezclar'
+        shuffle_button.title = 'Shuffle'
         shuffle_button.background_color = '#FF9800'
         shuffle_button.tint_color = 'white'
         shuffle_button.corner_radius = 12
@@ -571,7 +571,7 @@ class PuzzleView(ui.View):
         main_view.add_subview(shuffle_button)
 
         animate_button = ui.Button()
-        animate_button.title = 'Animar'
+        animate_button.title = 'Animate'
         animate_button.background_color = '#4CAF50'
         animate_button.tint_color = 'white'
         animate_button.corner_radius = 12
@@ -590,19 +590,19 @@ class PuzzleView(ui.View):
         reset_button.action = self.reset_puzzle
         main_view.add_subview(reset_button)
 
-        # Área de resultados - Más grande
+        # Results area - Larger
         self.results_text = ui.TextView()
         self.results_text.frame = (30, 820, 540, 160)
         self.results_text.background_color = '#f8f8f8'
         self.results_text.font = ('Courier', 16)
         self.results_text.editable = False
-        self.results_text.text = 'Selecciona un algoritmo y presiona "Resolver"'
+        self.results_text.text = 'Select an algorithm and press "Solve"'
         main_view.add_subview(self.results_text)
 
     def update_puzzle_display(self):
-        """Actualiza la visualización del puzzle"""
+        """Updates the puzzle display"""
         for i, value in enumerate(self.current_state):
-            x = (i % 3) * 150 + 5  # Tiles más grandes (150x150 en lugar de 100x100)
+            x = (i % 3) * 150 + 5  # Larger tiles (150x150 instead of 100x100)
             y = (i // 3) * 150 + 5
             self.tile_labels[i].frame = (x, y, 140, 140)  # 140x140 con margen de 5px
 
@@ -614,12 +614,12 @@ class PuzzleView(ui.View):
                 self.tile_labels[i].background_color = '#4CAF50'
 
     def get_selected_heuristic(self):
-        """Retorna la función heurística seleccionada"""
+        """Returns the selected heuristic function"""
         heuristics = [manhattan, misplaced, linear_conflict]
         return heuristics[self.heuristic_selector.selected_index]
 
     def solve_puzzle(self, sender):
-        """Resuelve el puzzle con el algoritmo seleccionado"""
+        """Solves the puzzle with the selected algorithm"""
         if self.animation_running:
             return
 
@@ -627,9 +627,9 @@ class PuzzleView(ui.View):
         algo_name = self.algorithm_selector.segments[self.algorithm_selector.selected_index]
         h = self.get_selected_heuristic()
 
-        self.results_text.text = f"Ejecutando {algo_name}..."
+        self.results_text.text = f"Running {algo_name}..."
 
-        # Ejecutar en hilo separado para no bloquear UI
+        # Execute in separate thread to avoid blocking UI
         def solve_thread():
             try:
                 start_time = time.time()
@@ -648,10 +648,10 @@ class PuzzleView(ui.View):
                 elapsed = time.time() - start_time
 
                 if result is None:
-                    self.results_text.text = f"{algo_name}: No se encontró solución\nNodos expandidos: {expanded}\nTiempo: {elapsed:.3f}s"
+                    self.results_text.text = f"{algo_name}: No solution found\nNodes expanded: {expanded}\nTime: {elapsed:.3f}s"
                 else:
                     self.solution_path = result
-                    steps = [a for a, _ in result][1:]  # excluir None inicial
+                    steps = [a for a, _ in result][1:]  # exclude initial None
                     depth = len(steps)
 
                     heur_name = self.heuristic_selector.segments[self.heuristic_selector.selected_index]
@@ -663,12 +663,12 @@ class PuzzleView(ui.View):
         threading.Thread(target=solve_thread).start()
 
     def shuffle_puzzle(self, sender):
-        """Mezcla el puzzle aleatoriamente"""
+        """Shuffles the puzzle randomly"""
         import random
         if self.animation_running:
             return
 
-        # Generar estado aleatorio solucionable
+        # Generate random solvable state
         tiles = list(range(9))
         while True:
             random.shuffle(tiles)
@@ -681,7 +681,7 @@ class PuzzleView(ui.View):
         self.results_text.text = 'Puzzle mezclado. Selecciona algoritmo y resuelve!'
 
     def is_solvable(self, tiles):
-        """Verifica si el puzzle es solucionable"""
+        """Checks if the puzzle is solvable"""
         inversions = 0
         for i in range(9):
             for j in range(i + 1, 9):
@@ -690,7 +690,7 @@ class PuzzleView(ui.View):
         return inversions % 2 == 0
 
     def animate_solution(self, sender):
-        """Anima la solución paso a paso"""
+        """Animates the solution step by step"""
         if not self.solution_path or self.animation_running:
             return
 
@@ -713,7 +713,7 @@ class PuzzleView(ui.View):
         animate_step()
 
     def reset_puzzle(self, sender):
-        """Resetea el puzzle al estado inicial"""
+        """Resets the puzzle to initial state"""
         if self.animation_running:
             return
 
@@ -723,7 +723,7 @@ class PuzzleView(ui.View):
         self.results_text.text = 'Puzzle reseteado. ¡Listo para resolver!'
 
     def after_delay(self, delay, func):
-        """Ejecuta función después de un delay"""
+        """Executes function after a delay"""
 
         def delayed():
             time.sleep(delay)
@@ -733,10 +733,10 @@ class PuzzleView(ui.View):
 
 
 # ============================================================================
-# PUNTO DE ENTRADA PRINCIPAL
+# MAIN ENTRY POINT
 # ============================================================================
 
 if __name__ == '__main__':
-    # Crear y mostrar la aplicación
+    # Create and show the application
     app = PuzzleView()
     app.present('fullscreen')
